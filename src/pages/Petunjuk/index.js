@@ -18,7 +18,7 @@ export default function Petunjuk({ navigation }) {
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: colors.tertiary }}>
-      <MyHeader title="Petunjuk" />
+      <MyHeader title="Petunjuk" onPress={() => navigation.goBack()} />
 
       <ScrollView>
         <View style={{ padding: 10 }}>
@@ -58,86 +58,86 @@ export default function Petunjuk({ navigation }) {
               </Table>
             </View>
 
-                <View style={{
-                    padding:20,
-                }}>
-                    <Text style={{
-                        fontFamily:fonts.primary[500],
-                        textAlign:'justify',
-                        color:colors.coklat
-                    }}>
-                    1. Hitung komposisi bahan dengan klik kompos sesuai target hasil C/N ratio 20-40 dan target hasil kelembapan 40-60
-                    </Text>
-                    <Text style={{
-                        fontFamily:fonts.primary[500],
-                        textAlign:'justify',
-                        color:colors.coklat
-                    }}>
-                   2. Takaran komposisi bahan bisa menggunakan ember, tong, dll 
-                    </Text>
+            <View style={{
+              padding: 20,
+            }}>
+              <Text style={{
+                fontFamily: fonts.primary[500],
+                textAlign: 'justify',
+                color: colors.coklat
+              }}>
+                1. Hitung komposisi bahan dengan klik kompos sesuai target hasil C/N ratio 20-40 dan target hasil kelembapan 40-60
+              </Text>
+              <Text style={{
+                fontFamily: fonts.primary[500],
+                textAlign: 'justify',
+                color: colors.coklat
+              }}>
+                2. Takaran komposisi bahan bisa menggunakan ember, tong, dll
+              </Text>
 
-                    <Text style={{
-                        fontFamily:fonts.primary[500],
-                        textAlign:'justify',
-                        color:colors.coklat
-                    }}>
-                   3. Jika hasil C/N ratio di bawah 20-40 maka tambahkan bahan dengan C/N ratio tinggi, atau kurangi bahan dengan C/N ratio rendah
-                    </Text>
+              <Text style={{
+                fontFamily: fonts.primary[500],
+                textAlign: 'justify',
+                color: colors.coklat
+              }}>
+                3. Jika hasil C/N ratio di bawah 20-40 maka tambahkan bahan dengan C/N ratio tinggi, atau kurangi bahan dengan C/N ratio rendah
+              </Text>
 
-                    <Text style={{
-                        fontFamily:fonts.primary[500],
-                        textAlign:'justify',
-                        color:colors.coklat
-                    }}>
-                   4. Jika hasil C/N ratio di atas 20-40 maka tambahkan bahan dengan C/N ratio rendah atau kurangi bahan dengan C/N ratio tinggi
-                    </Text>
+              <Text style={{
+                fontFamily: fonts.primary[500],
+                textAlign: 'justify',
+                color: colors.coklat
+              }}>
+                4. Jika hasil C/N ratio di atas 20-40 maka tambahkan bahan dengan C/N ratio rendah atau kurangi bahan dengan C/N ratio tinggi
+              </Text>
 
-                    <Text style={{
-                        fontFamily:fonts.primary[500],
-                        textAlign:'justify',
-                        color:colors.coklat
-                    }}>
-                 5. Jika hasil kelembapan di bawah 40-60% maka tambahkan bahan dengan kelembapan tinggi, atau kurangi bahan dengan kelembapan rendah
-                    </Text>
+              <Text style={{
+                fontFamily: fonts.primary[500],
+                textAlign: 'justify',
+                color: colors.coklat
+              }}>
+                5. Jika hasil kelembapan di bawah 40-60% maka tambahkan bahan dengan kelembapan tinggi, atau kurangi bahan dengan kelembapan rendah
+              </Text>
 
-                    <Text style={{
-                        fontFamily:fonts.primary[500],
-                        textAlign:'justify',
-                        color:colors.coklat
-                    }}>
+              <Text style={{
+                fontFamily: fonts.primary[500],
+                textAlign: 'justify',
+                color: colors.coklat
+              }}>
                 6. Jika hasil kelembapan di atas 40-60% maka tambahkan bahan dengan kelembapan rendah atau dikurangi bahan dengan kelembapan tinggi
-                    </Text>
+              </Text>
 
-                    <Text style={{
-                        fontFamily:fonts.primary[500],
-                        textAlign:'justify',
-                        color:colors.coklat
-                    }}>
-                  7. Setelah di campur semua bahan dan dedak, tambahkan dekomposer
-                    </Text>
+              <Text style={{
+                fontFamily: fonts.primary[500],
+                textAlign: 'justify',
+                color: colors.coklat
+              }}>
+                7. Setelah di campur semua bahan dan dedak, tambahkan dekomposer
+              </Text>
 
-                    <Text style={{
-                        fontFamily:fonts.primary[500],
-                        textAlign:'justify',
-                        color:colors.coklat
-                    }}>
-                   8. Proses pengomposan dilakukan secara tertutup, dan lakukan pembalikan 1 kali seminggu. Suhu panas saat proses pengomposan menunjukkan dekomposisi berjalan baik
+              <Text style={{
+                fontFamily: fonts.primary[500],
+                textAlign: 'justify',
+                color: colors.coklat
+              }}>
+                8. Proses pengomposan dilakukan secara tertutup, dan lakukan pembalikan 1 kali seminggu. Suhu panas saat proses pengomposan menunjukkan dekomposisi berjalan baik
 
-                    </Text>
+              </Text>
 
-                    
-                    <Text style={{
-                        fontFamily:fonts.primary[600],
-                        textAlign:'justify',
-                        color:colors.primary,
-                        marginTop:20
-                    }}>
-                  Informasi Lebih Lanjut:{'\n'}
-                  E-mail: syariffadillah@gmail.com
 
-                    </Text>
+              <Text style={{
+                fontFamily: fonts.primary[600],
+                textAlign: 'justify',
+                color: colors.primary,
+                marginTop: 20
+              }}>
+                Informasi Lebih Lanjut:{'\n'}
+                E-mail: syariffadillah@gmail.com
 
-                </View>
+              </Text>
+
+            </View>
 
           </View>
         </View>
@@ -149,7 +149,7 @@ export default function Petunjuk({ navigation }) {
 const styles = StyleSheet.create({
   tableContainer: {
     marginBottom: 20,
-    padding:10
+    padding: 10
   },
   head: {
     height: 50,
@@ -160,19 +160,19 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: colors.coklat,
     textAlign: 'center',
-    padding:10
+    padding: 10
   },
   row: {
-    
+
     backgroundColor: '#fff',
-    
-    
+
+
   },
   text: {
     fontFamily: fonts.primary[400],
     fontSize: 15,
     color: colors.coklat,
     textAlign: 'center',
- 
+
   },
 });

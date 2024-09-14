@@ -16,33 +16,37 @@ export default function MyHeader({ onPress, color = colors.white, title, icon = 
       flexDirection: 'row',
       alignItems: 'flex-end',
       paddingVertical: 20,
-      backgroundColor:colors.primary,
-      padding:20,
-      justifyContent:'center',
-      borderBottomLeftRadius:40,
-      borderBottomRightRadius:40,
-      
+      backgroundColor: colors.primary,
+      padding: 20,
+      justifyContent: 'center',
+      borderBottomLeftRadius: 40,
+      borderBottomRightRadius: 40,
+
     }}>
-     <View>
-     <TouchableOpacity onPress={() => navigation.goBack()} style={{
- marginTop: -30
-}}>
-  <Icon type='ionicon' name='arrow-back-outline' size={20} color={color} />
-</TouchableOpacity>
-     </View>
+
+      <TouchableOpacity onPress={() => navigation.goBack()} style={{
+
+
+        justifyContent: 'center',
+        alignItems: 'center',
+        padding: 10,
+      }}>
+        <Icon type='ionicon' name='arrow-back-outline' size={20} color={color} />
+      </TouchableOpacity>
+
 
       <Text style={{
         ...fonts.headline2,
         flex: 1,
-        textAlign:'center',
+        textAlign: 'center',
         marginLeft: -20,
-        
+
         color: color
       }}>{title}</Text>
 
       {icon &&
         <TouchableOpacity onPress={onPress} style={{
-           
+
         }}>
           <Icon name={iconname} size={20} color={color} />
         </TouchableOpacity>

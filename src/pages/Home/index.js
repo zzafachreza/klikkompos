@@ -76,120 +76,120 @@ export default function Home({ navigation, route }) {
     <ImageBackground source={require('../../assets/bghome.png')} style={{
       flex: 1,
       backgroundColor: colors.white,
-      width:"100%",
-      height:"100%"
+      width: "100%",
+      height: "100%"
     }}>
-    
-    <ScrollView>
 
-   <View style={{
-    padding:10
-   }}>
-
-<View style={{
-  alignItems:'center',
-  marginTop:10
-}}>
-      <Image style={{
-        width:315,
-        height:357
-      }} source={require('../../assets/logohome.png')}/>
-    </View>
-
-
-        {/* MENU */}
+      <ScrollView>
 
         <View style={{
-          padding:20
+          padding: 10
         }}>
 
-          <View>
-            <TouchableWithoutFeedback onPress={() => navigation.navigate('KalkulatorKompos')}>
-              <View style={{
-                padding:10,
-                backgroundColor:colors.primary,
-                borderRadius:10,
-                flexDirection:'row',
-                justifyContent:'center',
-                alignItems:'center'
-              }}>
-
-                <View style={{
-                  marginRight:29
-                }}>
-                  <Image style={{
-                    width:93,
-                    height:93,
-                  }} source={require('../../assets/icon_kalkulatorkompos.png')}/>
-                </View>
-
-                <View style={{
-                  alignItems:"center"
-                }}>
-                      <Text style={{
-                        fontFamily:fonts.primary[500],
-                        color:colors.white,
-                        fontSize:30,
-                       
-
-                      }}>
-                      Kalkulator{'\n'}
-                      Kompos
-                      </Text>
-                </View>
-
-              </View>
-            </TouchableWithoutFeedback>
+          <View style={{
+            alignItems: 'center',
+            marginTop: 10
+          }}>
+            <Image style={{
+              width: 315,
+              height: 357
+            }} source={require('../../assets/logohome.png')} />
           </View>
 
 
-                      <MyGap jarak={20}/>
+          {/* MENU */}
 
+          <View style={{
+            padding: 20
+          }}>
 
-          <View>
-            <TouchableWithoutFeedback onPress={() => navigation.navigate('Petunjuk')}>
-              <View style={{
-                padding:10,
-                backgroundColor:colors.primary,
-                borderRadius:10,
-                flexDirection:'row',
-                justifyContent:'center',
-                alignItems:'center'
-              }}>
-
+            <View>
+              <TouchableWithoutFeedback onPress={() => navigation.navigate('KalkulatorKompos')}>
                 <View style={{
-                  marginRight:29,
-                  left:-10
+                  padding: 10,
+                  backgroundColor: colors.primary,
+                  borderRadius: 10,
+                  flexDirection: 'row',
+                  justifyContent: 'center',
+                  alignItems: 'center'
                 }}>
-                  <Image style={{
-                    width:93,
-                    height:93,
-                  }} source={require('../../assets/icon_petunjuk.png')}/>
+
+                  <View style={{
+                    marginRight: 29
+                  }}>
+                    <Image style={{
+                      width: 93,
+                      height: 93,
+                    }} source={require('../../assets/icon_kalkulatorkompos.png')} />
+                  </View>
+
+                  <View style={{
+                    alignItems: "center"
+                  }}>
+                    <Text style={{
+                      fontFamily: fonts.primary[500],
+                      color: colors.white,
+                      fontSize: 30,
+
+
+                    }}>
+                      Kalkulator{'\n'}
+                      Kompos
+                    </Text>
+                  </View>
+
                 </View>
+              </TouchableWithoutFeedback>
+            </View>
 
+
+            <MyGap jarak={20} />
+
+
+            <View>
+              <TouchableWithoutFeedback onPress={() => navigation.navigate('Petunjuk')}>
                 <View style={{
-                  alignItems:"center"
+                  padding: 10,
+                  backgroundColor: colors.primary,
+                  borderRadius: 10,
+                  flexDirection: 'row',
+                  justifyContent: 'center',
+                  alignItems: 'center'
                 }}>
-                      <Text style={{
-                        fontFamily:fonts.primary[500],
-                        color:colors.white,
-                        fontSize:30,
-                        left:-20
-                       
 
-                      }}>
+                  <View style={{
+                    marginRight: 29,
+                    left: -10
+                  }}>
+                    <Image style={{
+                      width: 93,
+                      height: 93,
+                    }} source={require('../../assets/icon_petunjuk.png')} />
+                  </View>
+
+                  <View style={{
+                    alignItems: "center"
+                  }}>
+                    <Text style={{
+                      fontFamily: fonts.primary[500],
+                      color: colors.white,
+                      fontSize: 30,
+                      left: -20
+
+
+                    }}>
                       Petunjuk
-                      </Text>
-                </View>
+                    </Text>
+                  </View>
 
-              </View>
-            </TouchableWithoutFeedback>
+                </View>
+              </TouchableWithoutFeedback>
+            </View>
+
           </View>
 
         </View>
-
-   </View>
-    </ScrollView>
+      </ScrollView>
     </ImageBackground>
   )
 }

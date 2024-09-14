@@ -1,148 +1,301 @@
 import React, { useState } from 'react';
-import { SafeAreaView, ScrollView, StyleSheet, Text, TextInput, View, Alert } from 'react-native';
-import { MyButton, MyHeader } from '../../components';
+import { SafeAreaView, ScrollView, StyleSheet, Text, TextInput, View, Alert, FlatList } from 'react-native';
+import { MyButton, MyGap, MyHeader } from '../../components';
 import { colors, fonts } from '../../utils';
 import { Table, Row, Rows } from 'react-native-table-component';
+import { showMessage } from 'react-native-flash-message';
 
 export default function KalkulatorKompos({ navigation }) {
-  const tableHead = ['Bahan', 'Komposisi', 'Berat %'];
 
-  // Initial state for inputs
-  const [komposisi, setKomposisi] = useState({
-    'Kotoran Sapi': '',
-    'Eceng Gondok': '',
-    'Sekam Padi': '',
-    'Abu Sekam Padi': '',
-    'Dedak': '',
-    'Kotoran Ayam': '',
-  });
 
-  const [berat, setBerat] = useState({
-    'Kotoran Sapi': '',
-    'Eceng Gondok': '',
-    'Sekam Padi': '',
-    'Abu Sekam Padi': '',
-    'Dedak': '',
-    'Kotoran Ayam': '',
-  });
-
-  // Set initial value for C/N Ratio and Kelembapan to 0
-  const [cnRatio, setCnRatio] = useState(0);
-  const [kelembapan, setKelembapan] = useState(0);
-
-  // Data for Carbon and Nitrogen content and Density
-  const data = {
-    'Kotoran Sapi': { C: 45.6, N: 2.4, Water: 19.0, Density: 1458 },
-    'Eceng Gondok': { C: 29.5, N: 1.18, Water: 7.0, Density: 405 },
-    'Sekam Padi': { C: 36.0, N: 0.3, Water: 86.0, Density: 202 },
-    'Abu Sekam Padi': { C: 4.0, N: 0.18, Water: 85.0, Density: 150 },
-    'Dedak': { C: 6.12, N: 0.605, Water: 91.02, Density: 590 },
-    'Kotoran Ayam': { C: 30.0, N: 3.0, Water: 15.0, Density: 864 }
-  };
-
-  // Handle calculation
-  const calculate = () => {
-    let totalC = 0;
-    let totalN = 0;
-    let totalWater = 0;
-
-    // Make sure all fields are filled
-    for (let key in komposisi) {
-      if (!komposisi[key]) {
-        Alert.alert("Error", "Semua kolom komposisi harus diisi!");
-        return;
-      }
+  const [data, setData] = useState([
+    {
+      bahan: 'KOTORAN SAPI',
+      komposisi: '',
+      berat: '',
+      content: 81,
+      n: 2.40,
+      c: 45.6,
+      density: 1458,
+    },
+    {
+      bahan: 'ECENG GONDOK',
+      komposisi: '',
+      berat: '',
+      content: 93,
+      n: 1.18,
+      c: 29.5,
+      density: 405,
+    },
+    {
+      bahan: 'SEKAM PADI',
+      komposisi: '',
+      berat: '',
+      content: 14,
+      n: 0.30,
+      c: 36.0,
+      density: 202,
+    },
+    {
+      bahan: 'ABU SEKAM PADI',
+      komposisi: '',
+      berat: '',
+      content: 15,
+      n: 0.18,
+      c: 4.0,
+      density: 150,
+    },
+    {
+      bahan: 'DEDAK',
+      komposisi: '',
+      berat: '',
+      content: 8.978,
+      n: 0.605,
+      c: 6.12,
+      density: 589.944,
+    },
+    {
+      bahan: 'KOTORAN AYAM',
+      komposisi: '',
+      berat: '',
+      content: 37,
+      n: 2.70,
+      c: 38.0,
+      density: 864,
     }
 
-    // Calculate weight percentage and C/N ratio
-    let beratTotal = 0;
-
-    Object.keys(komposisi).forEach((bahan) => {
-      const komposisiBahan = parseFloat(komposisi[bahan]);
-      const { C, N, Water, Density } = data[bahan];
-
-      // Calculate the weight percentage using Density
-      const beratBahan = Density * komposisiBahan;
-      setBerat(prevState => ({ ...prevState, [bahan]: Math.round(beratBahan) }));
-
-      totalC += C * komposisiBahan;
-      totalN += N * komposisiBahan;
-      totalWater += Water * komposisiBahan;
-      beratTotal += beratBahan;
-    });
-
-    const cnRatioResult = Math.round(totalC / totalN);
-    const kelembapanResult = Math.round((totalWater / beratTotal) * 100);
-
-    // Update the results
-    setCnRatio(cnRatioResult);
-    setKelembapan(kelembapanResult);
-  };
-
-  const tableData = Object.keys(komposisi).map((bahan) => [
-    bahan,
-    <TextInput
-      style={styles.input}
-      value={komposisi[bahan].toString()}
-      onChangeText={(value) => setKomposisi({ ...komposisi, [bahan]: value })}
-      placeholder="..."
-    />,
-   <View style={{
-    backgroundColor: colors.secondary,
-    padding: 10,
-    borderRadius: 10,
-    width: "80%",
-    height: 45,
-    alignItems: "center",
-    left: 10
-   }}>
-   <Text style={{ textAlign: 'center', fontFamily:fonts.primary[800], color:colors.coklat}}>{berat[bahan] || '0'}</Text>
-   </View>
   ]);
+  const [BERAT, setBERAT] = useState([0, 0, 0, 0, 0, 0])
 
-  // Check if C/N Ratio or Kelembapan is within target range
-  const cnRatioBackgroundColor = cnRatio === 0 ? colors.secondary : (cnRatio < 20 || cnRatio > 40 ? colors.kuning : colors.secondary);
-  const kelembapanBackgroundColor = kelembapan === 0 ? colors.secondary : (kelembapan < 40 || kelembapan > 65 ? colors.kuning : colors.secondary);
+  const [hasil, setHasil] = useState({
+    RATIO: 0,
+    KELEMBABAN: 0,
+  })
+  const sendData = () => {
+    // cek apakah sudah semua di sisi atau belum
+    const cek = data.filter(i => i.komposisi.length == 0).length;
+    if (cek > 0) {
+      showMessage({
+        type: 'danger',
+        icon: 'danger',
+        message: 'Komposisi setiap bahan harus di isi !'
+      })
+    } else {
+      // jika semua komposisi di isi semua lanjut ke step berikutnya/
+      let TEMP_1 = [];
+      data.map((i, index) => {
+        TEMP_1.push({
+          bahan: i.bahan,
+          komposisi: i.komposisi,
+          berat: i.berat,
+          content: i.content,
+          contentF: 100 - i.content,
+          n: i.n,
+          c: i.c,
+          cnF: i.c / i.n,
+          karung: i.komposisi / 2,
+          density: i.density,
+        })
+      });
 
+      // tahap 2
+      let total_nitrogen = 0;
+      let total_carbon = 0;
+      let total_water = 0;
+      let total_weight = 0;
+      let total_sederhana = 0;
+      let TMP_BERAT = [];
+      TEMP_1.map((i, index) => {
+        let r1 = parseFloat(i.density * (i.contentF / 100) * (i.n / 100));
+        let r2 = parseFloat(i.density * (i.contentF / 100) * (i.c / 100));
+        let r3 = parseFloat(i.density * (i.content / 100));
+        let weight = parseFloat(i.komposisi * i.density);
+        let nitrogen = parseFloat(r1 * i.komposisi);
+        let carbon = parseFloat(r2 * i.komposisi);
+        let water = parseFloat(r3 * i.komposisi);
+        let r4 = weight * 0.453592;
+        TMP_BERAT.push(r4);
+
+        total_sederhana += r4;
+
+
+        total_nitrogen += nitrogen;
+        total_carbon += carbon;
+        total_water += water;
+        total_weight += weight;
+
+
+      });
+      // tahap 3
+
+      console.log({
+        total_nitrogen: total_nitrogen,
+        total_carbon: total_carbon,
+        total_water: total_water,
+        total_weight: total_weight,
+        total_sederhana: total_sederhana,
+      });
+      let galon_ke_liter = 4.546092;
+      let AIR_liter = 0;
+      let moisture = total_water / total_weight;
+      let solids = 1 - moisture;
+      let lbsolidsinmix = total_weight * solids;
+      let water_galon = total_water / 8.3;
+
+      let AIR = AIR_liter / galon_ke_liter;
+      let extra_water = AIR * 8.3;
+
+      // HASIL
+      let mix_carbon = (total_carbon / lbsolidsinmix) * 100;
+      let mix_nitrogen = (total_nitrogen / lbsolidsinmix) * 100;
+
+      let mix_water = total_water + extra_water;
+      let mix_weight = total_weight + extra_water;
+
+
+      let HASIL_RATIO = mix_carbon / mix_nitrogen;
+      let HASIL_KELEMBABAN = (mix_water / mix_weight) * 100;
+
+      setHasil({
+        RATIO: HASIL_RATIO,
+        KELEMBABAN: HASIL_KELEMBABAN
+      });
+
+      // simpan berat dalam persen
+
+
+      let TMP_BERAT_INSERT = [];
+
+      TMP_BERAT.map((i, index) => {
+        TMP_BERAT_INSERT.push((i / total_sederhana) * 100)
+      });
+      setBERAT(TMP_BERAT_INSERT)
+
+
+
+    }
+  }
   return (
     <SafeAreaView style={styles.container}>
       <MyHeader title="Kalkulator Kompos" />
-      <ScrollView>
-        <View style={{ padding: 10 }}>
-         <View style={{ padding: 10 }}>
-         <Table borderStyle={{ borderWidth: 1, borderColor: colors.coklat }}>
-            {/* Header */}
-            <Row data={tableHead} style={styles.header} textStyle={styles.headerText} />
-            {/* Data Rows */}
-            <Rows data={tableData} style={styles.row} textStyle={styles.text} />
-          </Table>
-
-            <View style={{ padding: 20 }}>
-              <MyButton title="Hitung" colorText={colors.white} onPress={calculate} />
+      <View style={{
+        flex: 1,
+        padding: 10
+      }}>
+        <ScrollView>
+          <View style={{
+            backgroundColor: colors.primary,
+            padding: 10,
+            marginVertical: 2,
+            flexDirection: 'row'
+          }}>
+            <View style={{
+              flex: 1,
+              justifyContent: 'center',
+              alignItems: 'center'
+            }}>
+              <Text style={{
+                ...fonts.headline5,
+                color: colors.white
+              }}>BAHAN</Text>
             </View>
-         </View>
-
-         <View>
-           <View style={{ marginTop: 20, padding: 20 }}>
-                  <Text style={styles.resultTitle}>Hasil C/N Ratio :</Text>
-                  <Text style={styles.resultSubtitle}>(Target 20 - 40)</Text>
-                  {/* Hasil C/N Ratio */}
-                  <View style={[styles.resultBox, { backgroundColor: cnRatioBackgroundColor }]}>
-                      <Text style={styles.resultText}>{cnRatio}</Text>
+            <View style={{
+              flex: 1,
+              justifyContent: 'center',
+              alignItems: 'center'
+            }}>
+              <Text style={{
+                ...fonts.headline5,
+                color: colors.white
+              }}>KOMPOSISI</Text>
+            </View>
+            <View style={{
+              flex: 1,
+              justifyContent: 'center',
+              alignItems: 'center'
+            }}>
+              <Text style={{
+                ...fonts.headline5,
+                color: colors.white
+              }}>BERAT %</Text>
+            </View>
+          </View>
+          <FlatList data={data} renderItem={({ item, index }) => {
+            return (
+              <View style={{
+                borderColor: colors.primary,
+                borderRadius: 12,
+                padding: 10,
+                borderWidth: 1,
+                marginVertical: 2,
+                flexDirection: 'row'
+              }}>
+                <View style={{
+                  flex: 1,
+                  justifyContent: 'center',
+                  alignItems: 'center'
+                }}>
+                  <Text style={{
+                    ...fonts.caption
+                  }}>{item.bahan}</Text>
+                </View>
+                <View style={{
+                  flex: 1,
+                  justifyContent: 'center',
+                  alignItems: 'center'
+                }}>
+                  <TextInput onChangeText={x => {
+                    let tmp = [...data];
+                    tmp[index].komposisi = x;
+                    setData(tmp);
+                  }} keyboardType='decimal-pad' style={styles.input} />
+                </View>
+                <View style={{
+                  flex: 1,
+                  paddingLeft: 5,
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                }}>
+                  <View style={{
+                    height: 45,
+                    paddingTop: 8,
+                    width: '100%',
+                    backgroundColor: colors.secondary,
+                    borderRadius: 10,
+                    // justifyContent: 'center',
+                    // alignItems: 'center',
+                    width: '80%',
+                  }}>
+                    <Text style={styles.input2}>{BERAT[index] > 0 ? parseFloat(BERAT[index]).toFixed(0) : ''}</Text>
                   </View>
-           </View>
 
-           <View style={{ marginTop: 5, padding: 20 }}>
-                  <Text style={styles.resultTitle}>Hasil Kelembapan :</Text>
-                  <Text style={styles.resultSubtitle}>(Target 40 - 65)</Text>
-                  {/* Hasil Kelembapan */}
-                  <View style={[styles.resultBox, { backgroundColor: kelembapanBackgroundColor }]}>
-                      <Text style={styles.resultText}>{kelembapan}</Text>
-                  </View>
-           </View>
-         </View>
-        </View>
-      </ScrollView>
+                </View>
+              </View>
+            )
+          }} />
+          <MyGap jarak={20} />
+          <MyButton title="Hitung" onPress={sendData} />
+          <View>
+            <View style={{ marginTop: 20, padding: 20 }}>
+              <Text style={styles.resultTitle}>Hasil C/N Ratio :</Text>
+              <Text style={styles.resultSubtitle}>(Target 20 - 40)</Text>
+              {/* Hasil C/N Ratio */}
+              <View style={[styles.resultBox, { backgroundColor: hasil.RATIO === 0 ? colors.secondary : (hasil.RATIO < 20 || hasil.RATIO > 40 ? colors.kuning : colors.secondary) }]}>
+                <Text style={styles.resultText}>{hasil.RATIO > 0 ? parseFloat(hasil.RATIO).toFixed(0) : ''}</Text>
+              </View>
+            </View>
+
+            <View style={{ marginTop: 5, padding: 20 }}>
+              <Text style={styles.resultTitle}>Hasil Kelembapan :</Text>
+              <Text style={styles.resultSubtitle}>(Target 40 - 65)</Text>
+              {/* Hasil Kelembapan */}
+              <View style={[styles.resultBox, { backgroundColor: hasil.KELEMBABAN === 0 ? colors.secondary : (hasil.KELEMBABAN < 40 || hasil.KELEMBABAN > 65 ? colors.kuning : colors.secondary) }]}>
+                <Text style={styles.resultText}>{hasil.KELEMBABAN > 0 ? parseFloat(hasil.KELEMBABAN).toFixed(0) : ''}</Text>
+              </View>
+            </View>
+          </View>
+        </ScrollView>
+      </View>
     </SafeAreaView>
   );
 }
@@ -181,7 +334,15 @@ const styles = StyleSheet.create({
     height: 45,
     width: '80%',
     left: 10,
-    fontFamily:fonts.primary[800]
+    fontFamily: fonts.primary[800]
+  },
+  input2: {
+
+    textAlign: 'center',
+    fontSize: 16,
+    color: colors.coklat,
+
+    fontFamily: fonts.primary[800]
   },
   resultTitle: {
     fontFamily: fonts.primary[400],
