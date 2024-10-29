@@ -6,11 +6,13 @@ import {
   StyleSheet,
   Linking,
   Dimensions,
+  Alert,
+  BackHandler,
 } from 'react-native';
 import { Icon } from 'react-native-elements';
 import { Color, colors } from '../../utils/colors';
 import { useState } from 'react';
-import { getData, urlAPI } from '../../utils/localStorage';
+import { getData, MYAPP, urlAPI } from '../../utils/localStorage';
 import { useEffect } from 'react';
 import axios from 'axios';
 import { useIsFocused } from '@react-navigation/native';
@@ -48,10 +50,10 @@ export default function BottomNavigator({ state, descriptors, navigation }) {
       borderTopWidth: 1,
       borderTopColor: Color.blueGray[100],
       height: 65,
-      borderTopRightRadius:20,
-      borderTopLeftRadius:20,
-   
-      
+      borderTopRightRadius: 20,
+      borderTopLeftRadius: 20,
+
+
     }}>
       {state.routes.map((route, index) => {
         const { options } = descriptors[route.key];
@@ -117,11 +119,17 @@ export default function BottomNavigator({ state, descriptors, navigation }) {
             accessibilityLabel={options.tabBarAccessibilityLabel}
             testID={options.tabBarTestID}
             onPress={
-              label === 'Kategori'
+              label === 'Home'
                 ? () =>
-                  navigation.navigate('Barang', {
-                    key: 0
-                  })
+                  Alert.alert(MYAPP, 'Apakah kamu yakin akan keluar aplikasi ?', [
+                    { text: 'TIDAK' },
+                    {
+                      text: 'KELUAR',
+                      onPress: () => {
+                        BackHandler.exitApp();
+                      }
+                    }
+                  ])
                 : onPress
             }
             onLongPress={onLongPress}
@@ -143,8 +151,8 @@ export default function BottomNavigator({ state, descriptors, navigation }) {
                   height: 65,
                   justifyContent: 'center',
                   alignItems: 'center',
-                  top:5,
-                 
+                  top: 5,
+
                 }}>
 
                 <Icon type='ionicon' name={iconName} size={50} color={isFocused ? colors.white : colors.secondary} />
